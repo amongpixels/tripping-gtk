@@ -16,7 +16,7 @@ namespace arrow
 //  }
   
   CDrawingArea::CDrawingArea(GtkDrawingArea * cobject, const Glib::RefPtr<Gtk::Builder>& builder) : Gtk::DrawingArea(cobject) {
-    //this->surface = 0;
+    this->selectedTool = 0;
   }
 
 //  CDrawingArea::~CDrawingArea() {
@@ -28,34 +28,12 @@ namespace arrow
 
     this->surface = this->get_window()->create_similar_surface(Cairo::CONTENT_COLOR, this->get_allocated_width(), this->get_allocated_height());
 
-    printf("ON CONFIGURE %d %d\n", this->get_allocated_width(), this->get_allocated_height());
-//    if (this->surface) {
-//      cairo_surface_destroy (surface);
-//    }
-//
-//    surface = gdk_window_create_similar_surface(
-//        (_GdkWindow *) gtk_widget_get_window((_GtkWidget *)this->gobject_),
-//        CAIRO_CONTENT_COLOR,
-//        this->get_allocated_width(),
-//        this->get_allocated_height()
-//    );
+    //printf("ON CONFIGURE %d %d\n", this->get_allocated_width(), this->get_allocated_height());
 
     this->clearSurface();
 
     return true;
 
-
-
-//    surface = gdk_window_create_similar_surface (gtk_widget_get_window (widget),
-//        CAIRO_CONTENT_COLOR,
-//        gtk_widget_get_allocated_width (widget),
-//        gtk_widget_get_allocated_height (widget));
-//
-//    // Initialize the surface to white
-//    clear_surface ();
-//
-//    // We've handled the configure event, no need for further processing.
-//    return TRUE;
   }
   
   void CDrawingArea::clearSurface() {
@@ -67,15 +45,19 @@ namespace arrow
 
   }
   
-  void CDrawingArea::drawBrush(double x, double y) {
+  void CDrawingArea::drawBrush(double x, double y, double r, double g, double b) {
     Cairo::RefPtr <Cairo::Context> cr;
 
     cr = Cairo::Context::create(this->surface);
 
+    cr->set_source_rgb(r, g, b);
+
+    cr->set_antialias(Cairo::ANTIALIAS_NONE);
     cr->rectangle(x - 3, y - 3, 6, 6);
     cr->fill();
 
-    this->queue_draw_area(x - 3, y - 3, 6, 6);
+    //this->queue_draw_area(x - 3, y - 3, 6, 6);
+    this->queue_draw();
   }
 
   bool CDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
@@ -89,12 +71,13 @@ namespace arrow
 
     if (event->button == GDK_BUTTON_PRIMARY)
     {
-      this->drawBrush(event->x, event->y);
+     this->drawTool(event->x, event->y);
     }
     else if (event->button == GDK_BUTTON_SECONDARY)
     {
-      this->clearSurface();
-      this->queue_draw();
+      this->drawBrush(event->x, event->y, 1.0, 1.0, 1.0);
+      //this->clearSurface();
+      //this->queue_draw();
     }
 
     return true;
@@ -106,11 +89,31 @@ namespace arrow
 
     Gtk::DrawingArea::on_realize();
   }
+  
+  void CDrawingArea::setTool(int t) {
+    this->selectedTool = t;
+  }
+  
+  void CDrawingArea::drawTool(double x, double y) {
+    if (this->selectedTool == 1) {
+      this->drawBrush(x, y, 1.0, 0.0, 0.0);
+    }
+    else if (this->selectedTool == 2) {
+      this->drawBrush(x, y, 0.0, 1.0, 0.0);
+    }
+  }
+  
+  void CDrawingArea::saveSurface(const char * path) {
+    this->surface->write_to_png(path);
+  }
 
   bool CDrawingArea::on_motion_notify_event(GdkEventMotion* event) {
 
     if (event->state & GDK_BUTTON1_MASK) {
-      this->drawBrush(event->x, event->y);
+      this->drawTool(event->x, event->y);
+    }
+    else if ((event->state & GDK_BUTTON2_MASK) || (event->state & GDK_BUTTON3_MASK)) {
+      this->drawBrush(event->x, event->y, 1.0, 1.0, 1.0);
     }
 
     return true;

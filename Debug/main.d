@@ -982,9 +982,9 @@ main.d: ../main.cpp /usr/include/gtkmm-3.0/gtkmm.h \
  /usr/include/gtkmm-3.0/gtkmm/treerowreference.h \
  /usr/include/gtkmm-3.0/gtkmm/treestore.h \
  /usr/include/gtkmm-3.0/gtkmm/uimanager.h \
- /usr/include/gtkmm-3.0/gtkmm/viewport.h ../src/CDrawingArea.h \
- /usr/include/cairomm-1.0/cairomm/cairomm.h \
- /usr/lib64/cairomm-1.0/include/cairommconfig.h ../src/CSurface.h
+ /usr/include/gtkmm-3.0/gtkmm/viewport.h ../src/CWindow.h \
+ ../src/CDrawingArea.h /usr/include/cairomm-1.0/cairomm/cairomm.h \
+ /usr/lib64/cairomm-1.0/include/cairommconfig.h ../src/CPreviewArea.h
 
 /usr/include/gtkmm-3.0/gtkmm.h:
 
@@ -3046,10 +3046,12 @@ main.d: ../main.cpp /usr/include/gtkmm-3.0/gtkmm.h \
 
 /usr/include/gtkmm-3.0/gtkmm/viewport.h:
 
+../src/CWindow.h:
+
 ../src/CDrawingArea.h:
 
 /usr/include/cairomm-1.0/cairomm/cairomm.h:
 
 /usr/lib64/cairomm-1.0/include/cairommconfig.h:
 
-../src/CSurface.h:
+../src/CPreviewArea.h:

@@ -5,15 +5,21 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/CDrawingArea.cpp \
-../src/CSurface.cpp 
+../src/CPreviewArea.cpp \
+../src/CSurface.cpp \
+../src/CWindow.cpp 
 
 OBJS += \
 ./src/CDrawingArea.o \
-./src/CSurface.o 
+./src/CPreviewArea.o \
+./src/CSurface.o \
+./src/CWindow.o 
 
 CPP_DEPS += \
 ./src/CDrawingArea.d \
-./src/CSurface.d 
+./src/CPreviewArea.d \
+./src/CSurface.d \
+./src/CWindow.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

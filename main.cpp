@@ -7,7 +7,7 @@
 
 #include <gtkmm.h>
 
-#include "src/CDrawingArea.h"
+#include "src/CWindow.h"
 
 using namespace arrow;
 
@@ -26,18 +26,22 @@ int main(int argc, char *argv[])
 
   refBuilder->add_from_file("interface.glade");
 
-  Gtk::Window * window;
-  refBuilder->get_widget("mainWindow", window);
+  CWindow * window;
+  refBuilder->get_widget_derived("mainWindow", window);
 
-  CDrawingArea * area;
-  refBuilder->get_widget_derived("drawingArea", area);
-
-  area->set_size_request(200, 200);
-
-
-//  gtk_widget_set_events (da, gtk_widget_get_events (da)
-//        | GDK_BUTTON_PRESS_MASK
-//        | GDK_POINTER_MOTION_MASK);
+//  Gtk::Window * window;
+//  refBuilder->get_widget("mainWindow", window);
+//
+//  CDrawingArea * area;
+//  refBuilder->get_widget_derived("drawingArea", area);
+//
+//  area->set_size_request(256, 256);
+//
+//  // Get the toolbar and do some magic to it
+//  Gtk::ToggleToolButton * volcanoTool;
+//  refBuilder->get_widget("volcanoTool", volcanoTool);
+//
+//  volcanoTool->signal_toggled().connect()
 
   window->show_all();
 
