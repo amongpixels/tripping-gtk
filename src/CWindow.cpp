@@ -35,6 +35,9 @@ namespace arrow
     builder->get_widget("generateTool", this->generateTool);
     generateTool->signal_clicked().connect(sigc::mem_fun(*this, &CWindow::on_generate_tool_click));
 
+    builder->get_widget("previewTool", this->previewTool);
+    previewTool->signal_clicked().connect(sigc::mem_fun(*this, &CWindow::on_preview_tool_click));
+
 
   }
   
@@ -72,6 +75,11 @@ namespace arrow
 
     this->previewArea->loadImage("color.png");
 
+  }
+
+  void CWindow::on_preview_tool_click() {
+    FILE * f = popen("./horde-test", "r");
+    fclose(f);
   }
 
   CWindow::~CWindow() {
