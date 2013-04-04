@@ -32,6 +32,9 @@ namespace arrow
     builder->get_widget("mountainTool", this->mountainTool);
     mountainTool->signal_toggled().connect(sigc::mem_fun(*this, &CWindow::on_mountain_tool_select));
 
+    builder->get_widget("riverTool", this->riverTool);
+    riverTool->signal_toggled().connect(sigc::mem_fun(*this, &CWindow::on_river_tool_select));
+
     builder->get_widget("generateTool", this->generateTool);
     generateTool->signal_clicked().connect(sigc::mem_fun(*this, &CWindow::on_generate_tool_click));
 
@@ -42,27 +45,33 @@ namespace arrow
   }
   
   void CWindow::on_mountain_tool_select() {
-
     if (this->mountainTool->get_active()) {
       this->volcanoTool->set_active(false);
-      this->drawingArea->setTool(2);
+      this->riverTool->set_active(false);
+      this->drawingArea->setTool(1);
     }
-
   }
   
   void CWindow::on_volcano_tool_select() {
-
     if (this->volcanoTool->get_active()) {
       this->mountainTool->set_active(false);
-      this->drawingArea->setTool(1);
+      this->riverTool->set_active(false);
+      this->drawingArea->setTool(3);
     }
+  }
 
+  void CWindow::on_river_tool_select() {
+    if (this->riverTool->get_active()) {
+      this->mountainTool->set_active(false);
+      this->volcanoTool->set_active(false);
+      this->drawingArea->setTool(2);
+    }
   }
   
   void CWindow::on_generate_tool_click() {
     this->drawingArea->saveSurface("input.png");
 
-    FILE * f = popen("./tripping-archer input.png output.png 1", "r");
+    FILE * f = popen("./tripping-archer -i input.png -o output.png -c color.png -r standard.cfg t 3 -s -v", "r");
 
     const int BUFSIZE = 1000;
     char buf[ BUFSIZE ];

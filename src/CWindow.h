@@ -24,13 +24,14 @@ namespace arrow
       CDrawingArea * drawingArea;
       CPreviewArea * previewArea;
 
-      Gtk::ToggleToolButton * volcanoTool, * mountainTool;
+      Gtk::ToggleToolButton * volcanoTool, * mountainTool, * riverTool;
       Gtk::ToolButton * generateTool, * previewTool;
 
     protected:
 
       void on_mountain_tool_select();
       void on_volcano_tool_select();
+      void on_river_tool_select();
       void on_generate_tool_click();
       void on_preview_tool_click();
 

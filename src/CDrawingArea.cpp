@@ -40,7 +40,7 @@ namespace arrow
     Cairo::RefPtr <Cairo::Context> cr;
 
     cr = Cairo::Context::create(this->surface);
-    cr->set_source_rgb(1.0, 1.0, 1.0);
+    cr->set_source_rgb(0.0, 0.0, 0.0);
     cr->paint();
 
   }
@@ -100,6 +100,9 @@ namespace arrow
     }
     else if (this->selectedTool == 2) {
       this->drawBrush(x, y, 0.0, 1.0, 0.0);
+    }
+    else if (this->selectedTool == 3) {
+      this->drawBrush(x, y, 0.0, 0.0, 1.0);
     }
   }
   
